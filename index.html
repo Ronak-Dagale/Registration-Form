@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+ 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  
+  
+  <title>Form Validation </title>
+</head>
+<body>
+  <div class="container">
+    <br>
+    <h1 class="text-success text-center"> Registration Form </h1><br>
+    <div class="col-lg-8 m-auto d-block">
+      <form class="" action="#" method="post"   onsubmit="return validation()">
+        <div class="form-group">
+          <label>UserName:</label>
+          <input type="text" name="user" class="form-control" id="user" placeholder="Username">
+          <span id="username" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+          <label>Password:</label>
+          <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+          <span id="passwordid" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+          <label>Confirm Password:</label>
+          <input type="password" name="confirmpassword" class="form-control" id="confirmpassword" placeholder="Confirm Password">
+          <span id="confirmpasswordid" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+          <label>Mobile Number:</label>
+          <input type="text" name="mobilenumber" class="form-control" id="mobilenumber" placeholder="Mobile Number">
+          <span id="mobilenumberid" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+          <label>Email:</label>
+          <input type="email" name="email" class="form-control" id="email" placeholder="Email">
+          <span id="emailid" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+          <label>Address:</label>
+          <textarea name="address" class="form-control" id="address" rows="4" placeholder="Address"></textarea>
+          <span id="addressid" class="text-danger"></span>
+        </div>
+        <input type="submit" name="submit" value="Submit" class="btn btn-success">
+      </form>
+    </div>
+  </div>
+  <script type="text/javascript">
+    var userNameInput = document.getElementById('user');
+    var passwordInput = document.getElementById('password');
+    var confirmPasswordInput = document.getElementById('confirmpassword');
+    var mobileNumberInput = document.getElementById('mobilenumber');
+    var emailInput = document.getElementById('email');
+    var addressInput = document.getElementById('address');
+
+    userNameInput.addEventListener('input', function() {
+      validateUserName();
+    });
+
+    passwordInput.addEventListener('input', function() {
+      validatePassword();
+    });
+
+    confirmPasswordInput.addEventListener('input', function() {
+      validateConfirmPassword();
+    });
+
+    mobileNumberInput.addEventListener('input', function() {
+      validateMobileNumber();
+    });
+
+    emailInput.addEventListener('input', function() {
+      validateEmail();
+    });
+
+    addressInput.addEventListener('input', function() {
+      validateAddress();
+    });
+
+    function validation() {
+      return (
+        validateUserName() &&
+        validatePassword() &&
+        validateConfirmPassword() &&
+        validateMobileNumber() &&
+        validateEmail() &&
+        validateAddress()
+      );
+    }
+
+    function validateUserName() {
+      var userName = userNameInput.value.trim();
+      var userNameError = document.getElementById('username');
+
+      if (userName === '') {
+        userNameError.innerHTML = ' ** Please fill the Username field';
+        return false;
+      }
+      if ((userName.length <= 2) || (userName.length >= 20)) {
+        userNameError.innerHTML = ' ** Username should be between 2 to 20 characters ';
+        return false;
+      } else if (!isNaN(userName)) {
+        userNameError.innerHTML = ' ** Only Characters are allowed';
+        return false;
+      } else {
+        userNameError.innerHTML = '';
+        return true;
+      }
+    }
+
+    function validatePassword() {
+      var password = passwordInput.value.trim();
+      var passwordError = document.getElementById('passwordid');
+
+      if (password === '') {
+        passwordError.innerHTML = ' ** Enter Password';
+        return false;
+      } else if (password === userNameInput.value.trim()) {
+        passwordError.innerHTML = ' ** Password can\'t be your Username';
+        return false;
+      } else if ((password.length <= 6) || (password.length >= 20)) {
+        passwordError.innerHTML = ' ** Password should be between 6 to 20 characters ';
+        return false;
+      } else {
+        passwordError.innerHTML = '';
+        return true;
+      }
+    }
+
+    function validateConfirmPassword() {
+      var confirmPassword = confirmPasswordInput.value.trim();
+      var confirmPasswordError = document.getElementById('confirmpasswordid');
+
+      if (confirmPassword === '') {
+        confirmPasswordError.innerHTML = ' ** Enter Confirm Password';
+        return false;
+      } else if (confirmPassword !== passwordInput.value.trim()) {
+        confirmPasswordError.innerHTML = ' ** Passwords do not match';
+        return false;
+      } else {
+        confirmPasswordError.innerHTML = '';
+        return true;
+      }
+    }
+
+    function validateMobileNumber() {
+      var mobileNumber = mobileNumberInput.value.trim();
+      var mobileNumberError = document.getElementById('mobilenumberid');
+
+      if (mobileNumber === '') {
+        mobileNumberError.innerHTML = ' ** Enter Mobile Number';
+        return false;
+      } else if (mobileNumber.length !== 10) {
+        mobileNumberError.innerHTML = ' ** Mobile Number should be 10 digits';
+        return false;
+      } else if (isNaN(mobileNumber)) {
+        mobileNumberError.innerHTML = ' ** Only digits are Accepted';
+        return false;
+      } else {
+        mobileNumberError.innerHTML = '';
+        return true;
+      }
+    }
+
+    function validateEmail() {
+      var email = emailInput.value.trim();
+      var emailError = document.getElementById('emailid');
+      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (email === '') {
+        emailError.innerHTML = ' ** Enter Email ID';
+        return false;
+      } else if (!emailRegex.test(email)) {
+        emailError.innerHTML = ' ** Invalid Email Format';
+        return false;
+      } else {
+        emailError.innerHTML = '';
+        return true;
+      }
+    }
+
+    function validateAddress() {
+      var address = addressInput.value.trim();
+      var addressError = document.getElementById('addressid');
+
+      if (address === '') {
+        addressError.innerHTML = ' ** Enter Address';
+        return false;
+      } else {
+        addressError.innerHTML = '';
+        return true;
+      }
+    }
+  </script>
+</body>
+</html>
+
